@@ -1,0 +1,11 @@
+---
+import Layout from "../layout/layout.astro";
+import { RegisterForm } from "../components/react/registerform";
+---
+
+<Layout title="Astro | Register">
+    <div class='flex justify-center items-center flex-col max-w-[1800px] mx-auto h-full'>
+        <h1>Register!</h1>
+        <RegisterForm client:load />
+    </div>
+</Layout>

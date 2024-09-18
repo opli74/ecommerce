@@ -1,0 +1,26 @@
+---
+import Layout from '../layout/layout.astro';
+import * as Query from '../api/database/user';
+
+const users = await fetch('http://localhost:5521/api/db/users')
+  .then(res => res.json())
+  .catch(err => {
+    console.error('Error fetching users:', err);
+    return [];
+  });
+---
+
+<Layout title="world">
+	<h1>Astro hi</h1>
+	<ul>
+		{users && users.length > 0 ? (
+			users.map((user: Query.USER) => (
+				<li>
+				{user.name} - {user.email} - {user.isAdmin ? 'Admin' : 'User'}
+				</li>
+			))
+			) : (
+			<p>No users found</p>
+			)}
+	</ul>
+</Layout>

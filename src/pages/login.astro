@@ -1,0 +1,11 @@
+---
+import Layout from "../layout/layout.astro";
+import { LoginForm } from "../components/react/loginform";
+---
+
+<Layout title="Astro | Login">
+    <div class='flex justify-center items-center flex-col max-w-[1800px] mx-auto h-full'>
+        <h1>Login!</h1>
+        <LoginForm client:load />
+    </div>
+</Layout>

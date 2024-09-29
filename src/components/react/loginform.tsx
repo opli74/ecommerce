@@ -30,10 +30,8 @@ export const handleSubmit = async (
 
     const result = await response.json();
 
-    console.log( result )
     if (result.success) 
       window.location.href = '/';
-
   } 
   catch (error: any) 
   {
@@ -45,7 +43,10 @@ export const handleSubmit = async (
   }
 };
 
-export const LoginForm: React.FC = () => {
+export const LoginForm: React.FC = (
+
+) => 
+{
   const [loading, setLoading] = useState(false);
 
   return (

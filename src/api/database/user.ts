@@ -12,7 +12,9 @@ export interface USER extends RowDataPacket
     updatedAt?: Date, 
 };
 
-export const getUsers = async ( sensitive: boolean = false ) => 
+export const getUsers = async ( 
+    sensitive: boolean = false 
+) => 
 {
     if( !sensitive )
         return await SQL.execute< USER[] >( 'SELECT * FROM users', [ ] );  
@@ -20,7 +22,10 @@ export const getUsers = async ( sensitive: boolean = false ) =>
         return await SQL.execute< USER[] >( 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users', [ ] );
  };
 
- export const getUserById = async ( id: string, sensitive: boolean = false ) =>
+ export const getUserById = async ( 
+    id: string, 
+    sensitive: boolean = false 
+) =>
  {
     if( !sensitive )
         return await SQL.execute< USER >( 'SELECT * FROM users WHERE id=?', [id] );
@@ -28,8 +33,12 @@ export const getUsers = async ( sensitive: boolean = false ) =>
         return await SQL.execute< USER >( 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE id=?', [id] );
  }
 
- export const getUserByEmail = async ( email: string, sensitive: boolean = false ) : Promise<USER | undefined> =>
- {
+ export const getUserByEmail = async ( 
+    email: string, 
+    sensitive: boolean = false 
+) 
+: Promise<USER | undefined> =>
+{
     let query;
     if( !sensitive )
         query = 'SELECT * FROM users WHERE email=?';
@@ -40,7 +49,11 @@ export const getUsers = async ( sensitive: boolean = false ) =>
     return rows.length > 0 ? rows[ 0 ] : undefined;
  }
 
-export const addUser = async ( name: string, email: string, password:string ) => 
+export const addUser = async ( 
+    name: string, 
+    email: string, 
+    password:string 
+) => 
 {
     const [result] = await SQL.execute< ResultSetHeader[] >( 
         'INSERT INTO users (name, email, password, isAdmin) VALUES (?, ?, ?, false)', 

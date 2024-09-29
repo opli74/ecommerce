@@ -12,21 +12,31 @@ export const registerUser = async (
         const userCheck = await SQL.getUserByEmail( email );
 
         if(  userCheck )
-            return{ error: 'User exists' }; 
+            return{ 
+                success: false, 
+                data: 'User exists' 
+            }; 
 
         const salt = await bcrypt.genSalt( 10 );
         const hash = await bcrypt.hash( password, salt );
 
         const success = await SQL.addUser( name, email, hash );
-
         if ( success ) 
-            return { success: true, data: 'User registered successfully' };
+            return { 
+                success: true, 
+                data: 'User registered successfully' 
+            };
         else 
-            return { success: false, data: 'Failed to register user' };
+            return { 
+                success: false, 
+                data: 'Failed to register user' 
+            };
     }
     catch ( error: any )
     {
-        console.error('Error logging in user:', error.message);
-        throw new Error('Failed to login');
+        return {
+            success: false,
+            data: error.message
+        };
     }
 }

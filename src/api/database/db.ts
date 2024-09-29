@@ -26,7 +26,7 @@ export const init = async () =>
     } 
     catch (error: any) 
     {
-        console.log(`Error: ${error.message}`);
+        console.log(`Error connecting to db: ${error.message}`);
         process.exit(1);
     }
 };
@@ -38,7 +38,12 @@ export const init = async () =>
  * @param {string[] | Object} params - provide the parameterized values used
  * in the query
  */
-export const execute = async <T> (query: string, params?: any[] ): Promise<T> => {
+export const execute = async <T> (
+    query: string, 
+    params?: any[] 
+)
+: Promise<T> => 
+{
     try 
     {
         if (!pool) 
@@ -55,8 +60,5 @@ export const execute = async <T> (query: string, params?: any[] ): Promise<T> =>
     }
 }
 
-function isArray<T>(value: T): value is T & any[] {
-    return Array.isArray(value);
-  }
 
   

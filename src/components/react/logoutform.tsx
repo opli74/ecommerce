@@ -35,7 +35,10 @@ export const handleSubmit = async (
   }
 };
 
-export const Logoutform: React.FC = () => {
+export const Logoutform: React.FC = (
+  
+) => 
+{
   const [loading, setLoading] = useState(false);
 
   return (

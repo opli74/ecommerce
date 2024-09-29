@@ -3,9 +3,9 @@ import { isLoggedIn } from '../util/auth';
 import { Logoutform } from './react/logoutform';
 import AdminDashboard from './react/admindash';
 
-const { loggedIn, user } = await isLoggedIn(Astro.request);
+const { success, data, user } = await isLoggedIn(Astro.request);
 
-if( !loggedIn || !user )
+if( !success || !user )
     return Astro.redirect( "/login" );
 
 let users;

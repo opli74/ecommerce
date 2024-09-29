@@ -1,10 +1,7 @@
 ---
 import { isLoggedIn } from "../util/auth";
 
-const { loggedIn, user } = await isLoggedIn(Astro.request);
-
-console.log( `${loggedIn} : ${user}`);
-
+const { success, data, user } = await isLoggedIn(Astro.request);
 ---
 
 <nav id="navbar" class="p-3 bg-slate-100 h-50 pl-10 pr-10 w-full z-[900] relative">
@@ -32,15 +29,17 @@ console.log( `${loggedIn} : ${user}`);
       </li>
     </ul>
     <ul>
-      {loggedIn ? (
-        <li>
-          <a href="/account/" class="flex items-center gap-1">Account</a>
-        </li>
-      ) : (
-        <li>
-          <a href="/login/" class="flex items-center gap-1">Login</a>
-        </li>
-      )}
+      {
+        success ? (
+          <li>
+            <a href="/account/" class="flex items-center gap-1">Account</a>
+          </li>
+        ) : (
+          <li>
+            <a href="/login/" class="flex items-center gap-1">Login</a>
+          </li>
+        )
+      }
     </ul>
   </div>
 </nav>

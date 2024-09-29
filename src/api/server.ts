@@ -25,7 +25,9 @@ const app = new Elysia()
   }))
   .use( cookie( ) )
 
-  .get( '/api/db/users', async ( ) => 
+  .get( '/api/db/users', async ( 
+
+  ) => 
   {
     try 
     {
@@ -38,26 +40,22 @@ const app = new Elysia()
     }
   })
 
-  .post( '/api/login',
-    async ({
+  .post( '/api/login', async ( {
       jwt,
       body,
       cookie: { accessToken }
-    }
-    ): Promise<{ success: boolean; data: any }> =>
+  } ): Promise<{ success: boolean; data: any }> =>
   {
     const { email, password } = body as { email: string, password: string };
     const result =  await loginUser( email, password );
 
-    if( !result.success )
-    {
+    if( !result.success || !result.user )
       return { 
         success: false,
         data: result.data,
-      }
-    }
-    
-    const accessJWT = await jwt.sign( {uid: String(result.user?.id)} );
+      };
+
+    const accessJWT = await jwt.sign({ uid: String(result.user?.id) });
 
     accessToken.set( { 
       value: accessJWT,
@@ -65,67 +63,100 @@ const app = new Elysia()
       httpOnly: true, 
       maxAge: 7 * 24 * 60 * 60, // 7 days
       path: '/', 
-    })
+    });
 
     return { 
       success: true, 
-      data: result.user 
+      data: result.data
     };
   })
 
-  .post( 'api/register', async ({ body }: { body: { name: string, email: string, password: string } }) =>
+  .post( 'api/register', async ( {
+    body 
+  } ) =>
   {
-    const{ name, email, password } = body;
+    const{ name, email, password } = body as { name: string, email: string, password: string };
     try
     {
       return await registerUser( name, email, password );
     }
     catch( error: any )
     {
-      console.error(`Error during register: ${error.message}`);
-      return { error: 'Failed to register, please try again later' };
+      return {
+        success: false, 
+        data: error.message 
+      };
     }
   })
 
-  .get('/api/auth/isloggedin', async ({ jwt, cookie: { accessToken } }) => 
-    {
+  .get('/api/auth/isloggedin', async ( {
+    jwt, 
+    cookie: { accessToken } 
+  } ) => 
+  {
     const token = accessToken.value;
 
     if (!token) 
-        return false;
+      return { 
+        success: false, 
+        data: 'Invalid token' 
+      };
 
     try 
     {
       const result = await jwt.verify(token);
 
       if (!result || typeof result !== 'object') 
-        return false;
+        return { 
+          success: false, 
+          data: 'Could not verify token'
+        };
     
       const { uid } = result;
-      const user: Query.USER  = await Query.getUserById( String(uid) );
-      
-      if( !user )
-        return false;
+      const user: Query.USER  = await Query.getUserById( String(uid), true );
 
-      return user[0];
+      if( !user )
+        return { 
+          success: false, 
+          data: 'Invalid user from token' 
+        };
+
+      return { 
+        success: true, 
+        data: 'Valid user',
+        user: { ...user[0] } 
+      };
     } 
     catch (error: any) 
     {
-      return { error: error.message };
+      return {
+        success: false, 
+        data: error.message
+      };
     }
   })
-  .post( '/api/logout', async ({ jwt, cookie, cookie: { accessToken } }) => 
+
+  .post( '/api/logout', async ( {
+      jwt, 
+      cookie, 
+      cookie: { accessToken } 
+  } ) => 
   {
     try 
     {
       accessToken.remove( );
       delete cookie.accessToken;
-      return { success: true, data: '' };
+      return { 
+        success: true, 
+        data: 'Successfully deleted token' 
+      };
     }
     catch ( error: any )
     {
-      console.log( `Failed to logout ${error.message}` );
-      return { success: false, data: error };
+      return { 
+        success: false, 
+        data: error 
+      };
     }
   })  
 ;

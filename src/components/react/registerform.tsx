@@ -42,7 +42,10 @@ export const handleSubmit = async (
   }
 };
 
-export const RegisterForm: React.FC = () => {
+export const RegisterForm: React.FC = (
+
+) => 
+{
   const [loading, setLoading] = useState(false);
 
   return (

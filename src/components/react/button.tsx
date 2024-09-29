@@ -1,7 +1,8 @@
 // src/components/Button.tsx
 import React from 'react';
 
-type ButtonProps = {
+type ButtonProps = 
+{
   children: React.ReactNode;
   loading?: boolean;
   size?: 'small' | 'large';
@@ -17,7 +18,8 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   type = 'submit',
   disabled,
-}) => {
+}) => 
+  {
   return (
     <button
       className={`bg-slate-900 text-white rounded-2xl px-5 py-2 text-lg md:text-xl font-medium w-full ${

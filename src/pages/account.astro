@@ -6,9 +6,9 @@ import { isLoggedIn } from '../util/auth';
 import { Logoutform } from '../components/react/logoutform';
 import AdminDashboard from '../components/react/admindash';
     
-const { loggedIn, user } = await isLoggedIn(Astro.request);
+const { success, data, user } = await isLoggedIn(Astro.request);
 
-if( !loggedIn || !user )
+if( !success || !user )
     return Astro.redirect( "/login" );
 
 let users;
@@ -25,15 +25,16 @@ if( user.isAdmin )
 ---
 
 <Layout title="Astro | Account">
-    <div class="flex justify-center items-center w-full"></div>
-    { 
-        user.isAdmin ? (
-            <AdminDashboard users={users} client:load />
-        )
-        :
-        (
-            <p>You are not admin!</p>
-        )
-    }
-    <Logoutform client:load/>
+    <div class="flex justify-center items-center w-full flex-col">
+        { 
+            user.isAdmin ? (
+                <AdminDashboard users={users} client:load />
+            )
+            :
+            (
+                <p>You are not admin!</p>
+            )
+        }
+        <Logoutform client:load/>
+    </div>
 </Layout>

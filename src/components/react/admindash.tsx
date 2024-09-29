@@ -21,7 +21,10 @@ interface UsersProps
 }
 
 
-const Users = ({ users }: UsersProps) => (
+const Users = (
+    { users }: UsersProps
+) => 
+(
     <div>
       <h2>Users Management</h2>
       {users && users.length > 0 ? (
@@ -38,23 +41,30 @@ const Users = ({ users }: UsersProps) => (
     </div>
   );
 
-const Products = () => (
+const Products = (
+
+) => 
+(
   <div>
     <h2>Products Management</h2>
     <p>This is the products section where you manage products.</p>
-    {/* Add product management functionalities here */}
   </div>
 );
 
-const Profile = () => (
+const Profile = (
+
+) => 
+(
   <div>
     <h2>Profile Management</h2>
     <p>This is the profile section where you manage your profile.</p>
-    {/* Add profile management functionalities here */}
   </div>
 );
 
-const DashboardContent = ({users}: UsersProps) => {
+const DashboardContent = (
+    {users}: UsersProps
+) => 
+{
   return (
     <Router>
       <div className="dashboard">
@@ -73,7 +83,6 @@ const DashboardContent = ({users}: UsersProps) => {
           </ul>
         </nav>
 
-        {/* Main Content */}
         <div className="admin-content">
           <Routes>
             <Route path="accountfefw/users" element={<Users users={users}/>} />
@@ -90,16 +99,12 @@ const Dashboard = ({users}: UsersProps) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // This effect runs after the component mounts, so it's guaranteed to be on the client
     setIsClient(true);
   }, []);
 
-  if (!isClient) {
-    // While waiting for client-side rendering, you can show a loading state
+  if (!isClient) 
     return <div>Loading dashboard...</div>;
-  }
 
-  // Render the dashboard content on the client
   return <DashboardContent users={users}/>;
 };
 

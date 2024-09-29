@@ -1,6 +1,9 @@
 import {type USER} from '../api/database/user';
 
-export async function isLoggedIn(request: Request): Promise<{ loggedIn: boolean, user?: USER }>
+export async function isLoggedIn( 
+  request: Request
+)
+: Promise<{ success: boolean, data: any | object, user?: USER }>
 {
     try 
     {
@@ -15,19 +18,19 @@ export async function isLoggedIn(request: Request): Promise<{ loggedIn: boolean,
       if (response.status !== 200) 
       {
         console.error("Failed to fetch user status");
-        return { loggedIn: false  };
+        return { success: false, data: response.status };
       }
   
-      const user = await response.json();
-  
-      if (!user) 
-        return { loggedIn: false }; 
+      const result = await response.json();
+
+      if (!result.success) 
+        return { success: false, data: result.data }; 
     
-      return { loggedIn: true, user };
+      return { success: true, data: result.data, user: result.user };
     } 
     catch (error: any) 
     {
       console.error("Error checking login status:", error);
-      return { loggedIn: false };
+      return { success: false, data: error.message };
     }
 }

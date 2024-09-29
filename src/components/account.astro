@@ -1,0 +1,34 @@
+---
+import { isLoggedIn } from '../util/auth';
+import { Logoutform } from './react/logoutform';
+import AdminDashboard from './react/admindash';
+
+const { loggedIn, user } = await isLoggedIn(Astro.request);
+
+if( !loggedIn || !user )
+    return Astro.redirect( "/login" );
+
+let users;
+
+if( user.isAdmin )
+{
+    users = await fetch('http://localhost:5521/api/db/users')
+    .then((res) => res.json())
+    .catch((err) => {
+        console.error('Error fetching users:', err);
+        return [];
+    });
+}
+---
+
+<div class="flex justify-center items-center w-full"></div>
+{ 
+    user.isAdmin ? (
+        <AdminDashboard users={users} client:load />
+    )
+    :
+    (
+        <p>You are not admin!</p>
+    )
+}
+<Logoutform client:load/>

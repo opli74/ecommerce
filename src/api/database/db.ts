@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { config } from 'dotenv';
-import type { RowDataPacket } from 'mysql2/promise';
+import type { FieldPacket, RowDataPacket } from 'mysql2/promise';
 
 config();
 
@@ -38,16 +38,15 @@ export const init = async () =>
  * @param {string[] | Object} params - provide the parameterized values used
  * in the query
  */
-export const execute = async <T> (query: string, params: (string | number)[] |  Object ): Promise<T[]> => {
+export const execute = async <T> (query: string, params?: any[] ): Promise<T> => {
     try 
     {
         if (!pool) 
-        {
             throw new Error('Pool was not created. Ensure pool is created when running the app.');
-        }
         
-        const [rows] = await pool.execute<RowDataPacket[]>( query, params );
-        return rows as T[];
+        const [rows] = await pool.execute<T & RowDataPacket[]>( query, params );
+
+        return rows as T;
     } 
     catch (error) 
     {
@@ -55,5 +54,9 @@ export const execute = async <T> (query: string, params: (string | number)[] |  
         throw new Error('Failed to execute MySQL query');
     }
 }
+
+function isArray<T>(value: T): value is T & any[] {
+    return Array.isArray(value);
+  }
 
   

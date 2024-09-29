@@ -1,29 +1,37 @@
 import * as SQL from '../database/user';
-import { generateToken, verifyToken  } from './token';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export const loginUser = async ( email: string, password: string ) =>
 {
     try
     {
         let user = await SQL.getUserByEmail( email );
-
         if( !user )
-            return{ error: 'Invalid email' };
+            return{ success: false, data: 'Invalid email' };
 
         if( !user.password || user.password.length == 0 )
-            return{ error: 'Invalid password' };
+            return{ success: false, data: 'Invalid password' };
         
-        if( !bcrypt.compare( password, user.password ))
-            return{ error: 'Invalid password not found' };
+        const compare = await bcrypt.compare( password, user.password );
+        if( !compare )
+            return{ success: false, data: 'Invalid password not found' };
+        ;
+        if( !Bun.env.JWT_SECRET )
+            return { success: false, data: 'JWT secret unavailable' };
 
-        const token = generateToken( user.id );
+        const token = jwt.sign({ uid: user.id }, Bun.env.JWT_SECRET || '', { expiresIn: '7d' });
 
-        return { message: 'Login successful', user: { id: user.id, name: user.name, email: user.email }, token };
+        return { 
+            success: true, 
+            data: 'Login successful',
+            user: { id: user.id, name: user.name, email: user.email }, 
+            token 
+        };
     }
     catch ( error: any )
     {
-        console.error('Error logging in user:', error.message);
-        throw new Error('Failed to login');
+        console.error( 'Error logging in user: ', error.message );
+        throw new Error( 'Failed to login' );
     }
 }

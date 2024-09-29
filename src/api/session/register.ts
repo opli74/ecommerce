@@ -1,8 +1,11 @@
 import * as SQL from '../database/user';
-import { generateToken, verifyToken  } from './token';
 import bcrypt from 'bcryptjs';
 
-export const registerUser = async ( name: string, email: string, password: string ) =>
+export const registerUser = async ( 
+    name: string, 
+    email: string, 
+    password: string 
+) =>
 {
     try
     {
@@ -16,14 +19,10 @@ export const registerUser = async ( name: string, email: string, password: strin
 
         const success = await SQL.addUser( name, email, hash );
 
-        if (success) 
-        {
-            return { message: 'User registered successfully' }; // Return success message
-        } 
+        if ( success ) 
+            return { success: true, data: 'User registered successfully' };
         else 
-        {
-            return { error: 'Failed to register user' }; // Handle registration failure
-        }
+            return { success: false, data: 'Failed to register user' };
     }
     catch ( error: any )
     {

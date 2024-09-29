@@ -1,0 +1,16 @@
+---
+const {text, href=''} = Astro.props;
+
+const hrefincluded = href && href.trim() !== '';
+---
+
+{ 
+    hrefincluded ? 
+    (
+        <li class="cursor-pointer"><a href={href}>{text}</a></li>
+    ) 
+    : 
+    (
+        <li class="cursor-pointer"><a>{text}</a></li>
+    )
+}

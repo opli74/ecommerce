@@ -9,13 +9,20 @@ export const registerUser = async (
 {
     try
     {
-        const userCheck = await SQL.getUserByEmail( email );
+        const userEmailCheck = await SQL.getUserByEmail( email );
+        //const userNameCheck = await SQL.getUserByName( name );
 
-        if(  userCheck )
+        if( userEmailCheck )
             return{ 
                 success: false, 
-                data: 'User exists' 
+                data: 'Email exists' 
             }; 
+
+        // if( userNameCheck )
+        //     return{ 
+        //         success: false, 
+        //         data: 'Name exists' 
+        //     }; 
 
         const salt = await bcrypt.genSalt( 10 );
         const hash = await bcrypt.hash( password, salt );

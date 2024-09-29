@@ -23,7 +23,10 @@ export const handleSubmit = async (
     const result = await response.json();
 
     if (result.success) 
+    {
+      window.location.reload( );
       window.location.href = '/';
+    }
   } 
   catch (error: any) 
   {
@@ -36,14 +39,14 @@ export const handleSubmit = async (
 };
 
 export const Logoutform: React.FC = (
-  
+
 ) => 
 {
   const [loading, setLoading] = useState(false);
 
   return (
     <form onSubmit={(e) => handleSubmit(e, setLoading)}>      
-      <Button>Logout</Button>
+      <Button  loading={loading} size='small'>Logout</Button>
     </form>
   );
 };

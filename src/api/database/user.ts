@@ -26,18 +26,21 @@ export const getUsers = async (
     id: string, 
     sensitive: boolean = false 
 ) =>
- {
+{
+    let query;
     if( !sensitive )
-        return await SQL.execute< USER >( 'SELECT * FROM users WHERE id=?', [id] );
+        query = 'SELECT * FROM users WHERE id=?';
     else
-        return await SQL.execute< USER >( 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE id=?', [id] );
- }
+        query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE id=?';
+
+    const rows = await SQL.execute< USER >( query, [id]);
+    return rows.length > 0 ? rows[ 0 ] : undefined;
+}
 
  export const getUserByEmail = async ( 
     email: string, 
     sensitive: boolean = false 
-) 
-: Promise<USER | undefined> =>
+) =>
 {
     let query;
     if( !sensitive )
@@ -48,6 +51,21 @@ export const getUsers = async (
     const rows = await SQL.execute< USER >( query, [email]);
     return rows.length > 0 ? rows[ 0 ] : undefined;
  }
+
+ export const getUserByName = async ( 
+    name: string, 
+    sensitive: boolean = false 
+) =>
+{
+    let query;
+    if( !sensitive )
+        query = 'SELECT * FROM users WHERE name=?';
+    else
+        query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE name=?';
+
+    const rows = await SQL.execute< USER >( query, [name]);
+    return rows.length > 0 ? rows[ 0 ] : undefined;
+}
 
 export const addUser = async ( 
     name: string, 

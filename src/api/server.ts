@@ -124,7 +124,14 @@ const app = new Elysia()
       return { 
         success: true, 
         data: 'Valid user',
-        user: { ...user[0] } 
+        user: { 
+          id: user.id, 
+          name: user.name, 
+          email: user.email, 
+          isAdmin: user.isAdmin, 
+          createdAt: user.createdAt, 
+          updatedAt: user.updatedAt 
+        }
       };
     } 
     catch (error: any) 

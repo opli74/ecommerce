@@ -28,6 +28,8 @@ export const handleSubmit = async (
     });
 
     const result = await response.json();
+
+    console.log( result );
     if (result.success) 
       window.location.href = '/login';
 
@@ -70,7 +72,7 @@ export const RegisterForm: React.FC = (
         </a>
       </p>
 
-      <Button>Register</Button>
+      <Button  loading={loading} >Register</Button>
     </form>
   );
 };

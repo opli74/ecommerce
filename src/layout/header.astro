@@ -2,6 +2,8 @@
 import { isLoggedIn } from "../util/auth";
 
 const { success, data, user } = await isLoggedIn(Astro.request);
+
+console.log( success );
 ---
 
 <nav id="navbar" class="p-3 bg-slate-100 h-50 pl-10 pr-10 w-full z-[900] relative">

@@ -22,11 +22,8 @@ export async function isLoggedIn(
       }
   
       const result = await response.json();
-
-      if (!result.success) 
-        return { success: false, data: result.data }; 
     
-      return { success: true, data: result.data, user: result.user };
+      return { success: result.success, data: result.data, user: result.user };
     } 
     catch (error: any) 
     {

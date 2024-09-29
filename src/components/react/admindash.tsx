@@ -2,6 +2,7 @@
 
 import React, { Suspense, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Loader } from './loader';
 
 export interface USER
 {
@@ -103,7 +104,7 @@ const Dashboard = ({users}: UsersProps) => {
   }, []);
 
   if (!isClient) 
-    return <div>Loading dashboard...</div>;
+    return <Loader colorMode={false}/>;
 
   return <DashboardContent users={users}/>;
 };

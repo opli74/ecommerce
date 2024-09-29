@@ -67,7 +67,7 @@ export const LoginForm: React.FC = (
           </a>
         </p>
       
-      <Button>Login</Button>
+      <Button loading={loading} >Login</Button>
     </form>
   );
 };

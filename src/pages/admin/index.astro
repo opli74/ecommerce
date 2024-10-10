@@ -1,0 +1,21 @@
+---
+import { Logoutform } from '../../components/react/logoutform';
+import Adminheader from '../../layout/admin.astro';
+import { type ApiResponse, fetchAPI } from "../../util/fetch";
+import { type USER  } from "../../util/types";
+
+const response = await fetchAPI( 
+            "/user/isloggedin", 
+            "GET"
+          );
+const result = (await response.json()) as ApiResponse< USER >;
+
+console.log( result );
+
+---
+
+<Adminheader>
+    <div class="w-full main">
+        <Logoutform client:load/>
+    </div>
+</Adminheader>

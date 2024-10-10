@@ -1,7 +1,8 @@
 ---
 import Header from './header.astro';
 import Footer from './footer.astro';
-const {title, style='/styles/style.css'} = Astro.props;
+const { title, style='/styles/style.css', empty=false }  = Astro.props;
+
 ---
 
 
@@ -14,8 +15,12 @@ const {title, style='/styles/style.css'} = Astro.props;
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-    <Header />
+    { 
+        !empty && (<Header />)
+    }
     <slot />
-    <Footer />
+    { 
+        !empty && (<Footer />)
+    }
 </body>
 </html>

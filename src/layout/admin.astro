@@ -1,0 +1,89 @@
+---
+import { isLoggedIn } from "../util/auth";
+
+Astro.response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+Astro.response.headers.set('Pragma', 'no-cache');
+Astro.response.headers.set('Expires', '0');
+
+const { success, data } = await isLoggedIn( Astro.request );
+const user = data;
+
+if( !success || !user )
+    return Astro.redirect( "/login" );
+
+if( !user?.isAdmin )
+    return Astro.redirect( "/account")
+
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+<nav id="admin-navbar" class="navbar p-3 bg-slate-100 h-screen w-[200px] z-[900] fixed top-0 left-0">
+  <div class=" mx-auto flex justify-evenly items-center relative h-full flex-col">
+    <div class="ml-1 mr-1">
+      <a href="/">
+        <img
+          width="150"
+          height="50"
+          alt="Astro ecommerce"
+          style={{ objectFit: "cover" }}
+          class="w-[80px] md:w-[100px]"
+        />
+      </a>
+    </div>
+    <ul class="flex w-full h-full justify-evenly items-center flex-col relative">    
+      <li class="flex justify-center flex-col w-full pl-8">
+        <a 
+          class={`text-gray-600 block !no-underline cursor-default`}
+        >
+          Products/
+        </a>
+
+        <a 
+          class={`${currentPath === '/admin/products' ? '!underline' : ''} block ml-4`}
+          href="/admin/products/edit"
+        >
+          Edit Products
+        </a>
+      <a 
+        class={`${currentPath === '/admin/products' ? '!underline' : ''} block ml-4`}
+        href="/admin/products/create"
+      >
+        Create Product
+      </a>
+
+      </li>
+      <li class="w-full">
+        <a 
+        class={`${currentPath === '/admin/users' ? '!underline' : ''}`}
+          href="/admin/users"
+        >
+          Users
+        </a>
+      </li>
+      <li class="w-full">
+        <a 
+        class={`${currentPath === '/admin/profile' ? '!underline' : ''}`}
+          href="/admin/profile"
+        >
+          Profile
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="main ml-[200px]">
+  <slot/>
+</div>
+
+</body>
+</html>

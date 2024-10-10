@@ -1,0 +1,14 @@
+---
+import Layout from '../../layout/layout.astro';
+import { Logoutform } from '../../components/react/logoutform';
+import Adminheader from '../../layout/admin.astro';
+
+---
+
+<Layout title="Astro | Account" empty={true} /> 
+        <Adminheader>
+            <div class="w-full main">
+                <Logoutform client:load/>
+            </div>
+        </Adminheader>
+</Layout>

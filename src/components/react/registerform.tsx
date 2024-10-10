@@ -1,10 +1,12 @@
 
 import {Button} from './button.tsx'
 import React, { useState } from 'react';
+import { Message } from './message.tsx';
 
 export const handleSubmit = async (
   e: React.FormEvent<HTMLFormElement>, 
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
+  setError: (error: string) => void
 ) => 
 {
   e.preventDefault();
@@ -29,14 +31,15 @@ export const handleSubmit = async (
 
     const result = await response.json();
 
-    console.log( result );
     if (result.success) 
       window.location.href = '/login';
+    else
+      setError( result.data );
 
   } 
   catch (error: any) 
   {
-    alert(`An error occurred while logging in ${error.message}`);
+    setError( `Error registering: ${error}` );
   } 
   finally 
   {
@@ -49,23 +52,27 @@ export const RegisterForm: React.FC = (
 ) => 
 {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, setLoading)} className='w-full'>
-      <label className="block mb-3">
+    <form onSubmit={(e) => handleSubmit(e, setLoading, setError)} className='auth-form w-full relative'>
+      <div className="w-full h-[44px] my-1">
+        { error && <Message variant='danger'>{error}</Message> }
+      </div>
+      <label>
         Username
-        <input type="text" name="name" required className='border-2 border-slate-400 p-2 rounded-lg w-full' />
+        <input type="text" name="name" required />
       </label>
-      <label className="block mb-3">
+      <label>
         Email
-        <input type="email" name="email" required className='border-2 border-slate-400 p-2 rounded-lg w-full' />
+        <input type="email" name="email" required />
       </label>
-      <label className="block mb-3">
+      <label>
         Password
-        <input type="password" name="password" required minLength={3} className='border-2 border-slate-400 p-2 rounded-lg w-full'/>
+        <input type="password" name="password" required minLength={3} />
       </label>
       
-      <p className='my-5 text-right'>
+      <p className='my-5 text-right mb-1.5rem'>
         Do have an account?{' '}
         <a href='/login' className='text-blue-500 underline'>
           Login

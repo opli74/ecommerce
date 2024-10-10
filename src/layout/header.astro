@@ -1,47 +1,9 @@
 ---
 import { isLoggedIn } from "../util/auth";
+import Navbar from "../components/react/navbar"
+// const { success, data, user } = await isLoggedIn(Astro.request);
 
-const { success, data, user } = await isLoggedIn(Astro.request);
-
-console.log( success );
 ---
 
-<nav id="navbar" class="p-3 bg-slate-100 h-50 pl-10 pr-10 w-full z-[900] relative">
-  <div class="max-w-[1800px] mx-auto flex justify-evenly items-center relative h-full">
-    <div class="ml-1 mr-1">
-      <a href="/">
-        <img
-          width="150"
-          height="50"
-          alt="Astro ecommerce"
-          style={{ objectFit: "cover" }}
-          class="w-[80px] md:w-[100px]"
-        />
-      </a>
-    </div>
-    <ul class="flex w-3/4 h-full justify-evenly items-center relative">
-      <li>
-        <a href="/products" class="flex items-center gap-1">Products</a>
-      </li>
-      <li>
-        <a href="/" class="flex items-center gap-1">Stuff</a>
-      </li>
-      <li>
-        <a href="/" class="flex items-center gap-1">More Stuff</a>
-      </li>
-    </ul>
-    <ul>
-      {
-        success ? (
-          <li>
-            <a href="/account/" class="flex items-center gap-1">Account</a>
-          </li>
-        ) : (
-          <li>
-            <a href="/login/" class="flex items-center gap-1">Login</a>
-          </li>
-        )
-      }
-    </ul>
-  </div>
-</nav>
+<Navbar client:load/>
+

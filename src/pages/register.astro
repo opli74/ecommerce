@@ -1,62 +1,14 @@
 ---
 import Layout from "../layout/layout.astro";
-import { Button } from "../components/react/button";
 import { RegisterForm } from "../components/react/registerform";
-
-// if (Astro.request.method === "POST") {
-//     try 
-//     {
-//       const data = await Astro.request.formData();
-//       const name = data.get("username");
-//       const email = data.get("email");
-//       const password = data.get("password");
-//       const response = await fetch("https://your-api-server.com/register", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify( { 
-//             name ,
-//             email,
-//             password,
-//         })
-//       });
-//     } 
-//     catch (error) 
-//     {
-//       if (error instanceof Error) 
-//         console.error(error.message);
-//     }
-//   }
 ---
 
 
 <Layout title="Astro | Register">
-    <div class="form-container flex justify-center items-center min-h-full min-w-full absolute top-0">
-        <div class="flex justify-center items-center flex-col max-w-[500px] w-full p-5 bg-white shadow-lg rounded-lg">
-            <h1 class="text-2xl font-bold mb-5">Register</h1>
+    <div class="center-screen">
+        <div class="auth-form-wrap">
+            <h1 class="text-2xl font-bold">Register</h1>
             <RegisterForm client:load /> 
-            <!-- <form method="POST" class="w-full">
-            <label class="block mb-3">
-                Username
-                <input type="text" name="name" required class='border-2 border-slate-400 p-2 rounded-lg w-full' />
-            </label>
-            <label class="block mb-3" class="block mb-3">
-                Email
-                <input type="email" name="email" required class='border-2 border-slate-400 p-2 rounded-lg w-full' />
-            </label>
-            <label class="block mb-3">
-                Password
-                <input type="password" name="password" required minlength="3" class='border-2 border-slate-400 p-2 rounded-lg w-full'/>
-            </label>
-            <p class='my-5 text-right'>
-                Do have an account?{' '}
-                <a href='/login' class='text-blue-500 underline'>
-                  Login
-                </a>
-            </p>
-            <Button>Register</Button>
-        </form> -->
         </div>
     </div>
 </Layout>

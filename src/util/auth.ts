@@ -1,33 +1,35 @@
-import {type USER} from '../api/database/user';
+import { fetchAPI } from './fetch';
+import { type ApiResponse, response } from '../api/util/response';
+import type { USER } from './types';
 
 export async function isLoggedIn( 
-  request: Request
+  request?: Request
 )
-: Promise<{ success: boolean, data: any | object, user?: USER }>
+: Promise< ApiResponse< USER > >
 {
-    try 
-    {
-      const response = await fetch("http://localhost:5521/api/auth/isloggedin", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Cookie: request.headers.get('cookie') || '',
-        },
-      });
-  
-      if (response.status !== 200) 
+  try 
+  {
+    const cookieHeader = request?.headers.get( 'cookie' ) || '';
+    const apiResponse = await fetchAPI( 
+      "/user/isloggedin", 
+      "GET", 
       {
-        console.error("Failed to fetch user status");
-        return { success: false, data: response.status };
+        Cookie: cookieHeader
       }
-  
-      const result = await response.json();
-    
-      return { success: result.success, data: result.data, user: result.user };
-    } 
-    catch (error: any) 
-    {
-      console.error("Error checking login status:", error);
-      return { success: false, data: error.message };
-    }
+    );
+
+    const result = ( await apiResponse.json() ) as ApiResponse< USER >;
+
+    return result;
+  } 
+  catch (error: any) 
+  {
+    console.error( `[isLoggedIn] -> ${error}` );
+    return response< USER >( 
+      false,
+      "Failed",
+      null,
+      error
+    );
+  }
 }

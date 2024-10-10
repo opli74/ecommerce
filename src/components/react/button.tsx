@@ -21,7 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   // Define dimensions based on size
   const buttonHeight = size === 'small' ? '40px' : '50px';
-  const loaderSize = size === 'small' ? 24 : 24; // Adjust loader size as needed
+  const loaderSize = size === 'small' ? 18 : 21; // Adjust loader size as needed
   const loaderMargin = 8; // Space between loader and text
 
   const textRef = useRef<HTMLDivElement>(null);
@@ -36,9 +36,9 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-    className={`bg-slate-900 text-white rounded-2xl px-5 py-2 text-lg md:text-xl font-medium w-full ${
+    className={`bg-slate-900 text-white rounded-full px-5 py-2 text-lg md:text-xl font-medium w-full ${
       size === 'small' ? 'max-w-[250px]' : 'max-w-[500px]'
-    } flex gap-3 justify-center mt-8 cursor-pointer hover:bg-slate-800 min-w-[175px]`}
+    } flex gap-3 justify-center items-center cursor-pointer hover:bg-slate-800 min-w-[175px]`}
       disabled={loading || disabled}
       onClick={onClick}
       type={type}
@@ -50,7 +50,7 @@ export const Button: React.FC<ButtonProps> = ({
           marginLeft: textWidth+24+20
         }}
       >
-        {loading && <Loader variant="small" size={loaderSize} aria-label="Loading" />}
+        {loading && <Loader variant="small" size={loaderSize} aria-label="Loading" colorMode='light'/>}
       </div>
       <div
         ref={textRef}

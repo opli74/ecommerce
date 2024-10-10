@@ -68,10 +68,10 @@ const DashboardContent = (
 {
   return (
     <Router>
-      <div className="dashboard">
+      <div className="dashboard flex flex-row w-full h-full">
         {/* Navigation */}
-        <nav className="admin-nav">
-          <ul>
+        <nav className="admin-nav float-left h-full">
+          <ul className="h-full flex justify-evenly items-center flex-col ml-4 mr-4">
             <li>
               <Link to="accountfefw/users">Users</Link>
             </li>
@@ -84,7 +84,7 @@ const DashboardContent = (
           </ul>
         </nav>
 
-        <div className="admin-content">
+        <div className="admin-content flex justify-center items-center w-full h-full">
           <Routes>
             <Route path="accountfefw/users" element={<Users users={users}/>} />
             <Route path="accountfefw/products" element={<Products />} />
@@ -104,7 +104,7 @@ const Dashboard = ({users}: UsersProps) => {
   }, []);
 
   if (!isClient) 
-    return <Loader colorMode={false}/>;
+    return <Loader colorMode={'dark'}/>;
 
   return <DashboardContent users={users}/>;
 };

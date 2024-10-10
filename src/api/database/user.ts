@@ -1,7 +1,7 @@
 import * as SQL from '../database/db';
 import type { ResultSetHeader, RowDataPacket } from 'mysql2';
 
-export interface USER extends RowDataPacket
+interface USER_DB extends RowDataPacket
 {
     id?: number,
     name: string,
@@ -12,17 +12,21 @@ export interface USER extends RowDataPacket
     updatedAt?: Date, 
 };
 
-export const getUsers = async ( 
+export const GetUsers = async ( 
     sensitive: boolean = false 
 ) => 
 {
+    let query;
     if( !sensitive )
-        return await SQL.execute< USER[] >( 'SELECT * FROM users', [ ] );  
+        query = 'SELECT * FROM users';
     else
-        return await SQL.execute< USER[] >( 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users', [ ] );
+        query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users';
+
+    const rows = await SQL.execute< USER_DB[] >( query );
+    return rows.length > 0 ? rows : null;
  };
 
- export const getUserById = async ( 
+ export const GetUserById = async ( 
     id: string, 
     sensitive: boolean = false 
 ) =>
@@ -33,11 +37,11 @@ export const getUsers = async (
     else
         query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE id=?';
 
-    const rows = await SQL.execute< USER >( query, [id]);
-    return rows.length > 0 ? rows[ 0 ] : undefined;
+    const rows = await SQL.execute< USER_DB >( query, [id]);
+    return rows.length > 0 ? rows[ 0 ] : null;
 }
 
- export const getUserByEmail = async ( 
+ export const GetUserByEmail = async ( 
     email: string, 
     sensitive: boolean = false 
 ) =>
@@ -48,11 +52,11 @@ export const getUsers = async (
     else
         query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE email=?';
 
-    const rows = await SQL.execute< USER >( query, [email]);
-    return rows.length > 0 ? rows[ 0 ] : undefined;
+    const rows = await SQL.execute< USER_DB >( query, [email]);
+    return rows.length > 0 ? rows[ 0 ] : null;
  }
 
- export const getUserByName = async ( 
+ export const GetUserByName = async ( 
     name: string, 
     sensitive: boolean = false 
 ) =>
@@ -63,11 +67,11 @@ export const getUsers = async (
     else
         query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE name=?';
 
-    const rows = await SQL.execute< USER >( query, [name]);
-    return rows.length > 0 ? rows[ 0 ] : undefined;
+    const rows = await SQL.execute< USER_DB >( query, [name]);
+    return rows.length > 0 ? rows[ 0 ] : null;
 }
 
-export const addUser = async ( 
+export const AddUser = async ( 
     name: string, 
     email: string, 
     password:string 

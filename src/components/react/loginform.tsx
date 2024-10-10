@@ -2,44 +2,52 @@
 import { redirect } from 'elysia';
 import {Button} from './button.tsx'
 import React, { useState } from 'react';
+import { Message } from './message.tsx';
+import { fetchAPI } from '../../util/fetch.ts';
 
 export const handleSubmit = async (
   e: React.FormEvent<HTMLFormElement>, 
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
+  setError: (error: string) => void
 ) => 
 {
   e.preventDefault();
   
   setLoading(true);
 
+  let result;
+
   try 
   {  
     const formData = new FormData(e.currentTarget);
 
-    const response = await fetch('http://localhost:5521/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', 
-      body: JSON.stringify ({
-        email: formData.get('email'),
-        password: formData.get('password')
-      })
-    });
+    const response = await fetchAPI( 
+      '/user/login', 
+      'POST', 
+      { 
+        'Content-Type': 'application/json' 
+      }, 
+      { 
+        email: formData.get( 'email' ),
+        password: formData.get( 'password' )
+      }
+    );
 
-    const result = await response.json();
+    result = await response.json();
 
     if (result.success) 
       window.location.href = '/';
+    else
+      setError( 'Invalid login details' );
+
   } 
   catch (error: any) 
   {
-    alert(`An error occurred while logging in ${error.message}`);
+    setError( `Login error: ${error.message}`);
   } 
   finally 
   {
-    setLoading(false);
+    setLoading( false );
   }
 };
 
@@ -48,16 +56,21 @@ export const LoginForm: React.FC = (
 ) => 
 {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, setLoading)} className='w-full'>
-        <label className="block mb-3">
+    <form onSubmit={(e) => handleSubmit(e, setLoading, setError)} className='auth-form w-full relative'>
+        <div className="w-full !h-[44px] my-1">
+          { error && <Message variant='danger'>{error}</Message> }
+        </div>
+        
+        <label>
           Email
-          <input type="email" name="email" required className='border-2 border-slate-400 p-2 rounded-lg w-full' />
+          <input type="email" name="email" required/>
         </label>
-        <label className="block mb-3">
+        <label>
           Password
-          <input type="password" name="password" required minLength={3} className='border-2 border-slate-400 p-2 rounded-lg w-full'/>
+          <input type="password" name="password" required minLength={3}/>
         </label>
         
         <p className='my-5 text-right'>

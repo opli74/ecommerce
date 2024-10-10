@@ -2,6 +2,7 @@
 import { redirect } from 'elysia';
 import {Button} from './button.tsx'
 import React, { useState } from 'react';
+import { fetchAPI } from '../../util/fetch.ts';
 
 export const handleSubmit = async (
   e: React.FormEvent<HTMLFormElement>, 
@@ -16,10 +17,11 @@ export const handleSubmit = async (
   {    
     const formData = new FormData(e.currentTarget);
 
-    const response = await fetch('http://localhost:5521/api/logout', {
-      method: 'POST',
-      credentials: "include",
-    });
+    const response = await fetchAPI( 
+      '/user/logout', 
+      'POST'
+    );
+
     const result = await response.json();
 
     if (result.success) 
@@ -46,7 +48,7 @@ export const Logoutform: React.FC = (
 
   return (
     <form onSubmit={(e) => handleSubmit(e, setLoading)}>      
-      <Button  loading={loading} size='small'>Logout</Button>
+      <Button loading={loading} size='small'>Logout</Button>
     </form>
   );
 };

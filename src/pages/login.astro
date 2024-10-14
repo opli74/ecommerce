@@ -1,14 +1,18 @@
 ---
 import Layout from "../layout/layout.astro";
-import { Button } from "../components/react/button";
+import { Button } from "../components/react/ui/button";
 import { LoginForm } from "../components/react/loginform";
 ---
 
 <Layout title="Astro | Login">
-    <div class="center-screen">
-        <div class="auth-form-wrap">
-            <h1 class="text-2xl font-bold">Login</h1>
-            <LoginForm client:load />
+    <main class="max-h-full h-full min-w-[220px] w-auto my-[48px]">
+        <div class="max-w-[640px] m-auto rounded-[26px] border-gray-200 border-2 bg-gray-50 p-[72px]">
+            <div class="text-center">
+                <h1 class="text-3xl font-semibold">Sign in to get started</h1>
+            </div>
+            <div class="content">
+                <LoginForm client:load />
+            </div>
         </div>
-    </div>
+    </main>
 </Layout>

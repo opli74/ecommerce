@@ -1,7 +1,7 @@
 
-import {Button} from './button.tsx'
+import {Button} from './ui/button.tsx'
 import React, { useState } from 'react';
-import { Message } from './message.tsx';
+import { Message } from './ui/message.tsx';
 
 export const handleSubmit = async (
   e: React.FormEvent<HTMLFormElement>, 

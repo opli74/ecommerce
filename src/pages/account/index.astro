@@ -3,7 +3,7 @@ import Layout from '../../layout/layout.astro';
 import { isLoggedIn } from '../../util/auth';
 import { Logoutform } from '../../components/react/logoutform';
 import AdminDashboard from '../../components/react/admindash';
-import { Loader } from '../../components/react/loader';
+import { Loader } from '../../components/react/ui/loader';
 
 //just so you the page doesn't get cached so you can't go back to it without re logging in
 Astro.response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');

@@ -1,8 +1,13 @@
 ---
 import Layout from '../layout/layout.astro';
+import Spinner from '../components/react/ui/spinner';
 ---
 
 <Layout title="Astro">
 	<h1 class="text-xl">Astro hi</h1>
 	<a href="/api/logout">logout!</a>
+	<div class="bg-black">
+		<Spinner size={250} colorMode='light' client:load/>
+	</div>
+	<Spinner size={250} colorMode='dark' client:load/>
 </Layout>

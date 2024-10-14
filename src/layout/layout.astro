@@ -1,7 +1,7 @@
 ---
 import Header from './header.astro';
 import Footer from './footer.astro';
-const { title, style='/styles/style.css', empty=false }  = Astro.props;
+const { title, style='/styles/style.css',  onepage=false }  = Astro.props;
 
 ---
 
@@ -14,13 +14,9 @@ const { title, style='/styles/style.css', empty=false }  = Astro.props;
     <title>{title}</title>
     <link rel="stylesheet" href="/styles/style.css">
 </head>
-<body>
-    { 
-        !empty && (<Header />)
-    }
+<body class={ onepage ? "one-page" : "" }>
+    <Header />
     <slot />
-    { 
-        !empty && (<Footer />)
-    }
+    <Footer />
 </body>
 </html>

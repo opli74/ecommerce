@@ -1,9 +1,8 @@
-
-import { redirect } from 'elysia';
-import {Button} from './button.tsx'
+// src/components/LoginForm.tsx
 import React, { useState } from 'react';
-import { Message } from './message.tsx';
-import { fetchAPI } from '../../util/fetch.ts';
+import { Button } from './ui/button';
+import { Message } from './ui/message';
+import { fetchAPI } from '../../util/fetch';
 
 export const handleSubmit = async (
   e: React.FormEvent<HTMLFormElement>, 
@@ -43,7 +42,7 @@ export const handleSubmit = async (
   } 
   catch (error: any) 
   {
-    setError( `Login error: ${error.message}`);
+    setError( `Login error: ${error.message}` );
   } 
   finally 
   {
@@ -53,34 +52,69 @@ export const handleSubmit = async (
 
 export const LoginForm: React.FC = (
 
-) => 
-{
+) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, setLoading, setError)} className='auth-form w-full relative'>
-        <div className="w-full !h-[44px] my-1">
-          { error && <Message variant='danger'>{error}</Message> }
-        </div>
-        
-        <label>
+    <form
+      onSubmit={(e) => handleSubmit(e, setLoading, setError)}
+      className="auth-form w-full relative"
+      noValidate
+    >
+      {/* Error Message */}
+      <div className="w-full h-11 mt-2 mb-5">
+        {error && <Message variant="danger">{error}</Message>}
+      </div>
+
+      {/* Email Field */}
+      <div className="relative z-0 w-full mb-6 group">
+        <input
+          type="email"
+          name="email"
+          id="iptLgnPlnID"
+          required
+          placeholder=" "
+          aria-describedby="email-error"
+        />
+        <label
+          htmlFor="iptLgnPlnID"
+        >
           Email
-          <input type="email" name="email" required/>
         </label>
-        <label>
+      </div>
+
+      {/* Password Field */}
+      <div className="relative z-0 w-full mb-6 group">
+        <input
+          type="password"
+          name="password"
+          id="iptPasswordID"
+          required
+          minLength={3}
+          placeholder=" "
+          aria-describedby="password-error"
+        />
+        <label
+          htmlFor="iptPasswordID"
+        >
           Password
-          <input type="password" name="password" required minLength={3}/>
         </label>
-        
-        <p className='my-5 text-right'>
-          Do have an account?{' '}
-          <a href='/register' className='text-blue-500 underline'>
-            Register
-          </a>
-        </p>
-      
-      <Button loading={loading} >Login</Button>
+      </div>
+
+      {/* Register Link */}
+      <p className="mt-6 mb-16 text-right">
+        Don't have an account?{' '}
+        <a href="/register" className="text-blue-500 underline">
+          Register
+        </a>
+      </p>
+
+      {/* Submit Button */}
+      <Button loading={loading} type="submit">
+        Login
+      </Button>
     </form>
   );
 };
+

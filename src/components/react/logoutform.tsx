@@ -1,6 +1,6 @@
 
 import { redirect } from 'elysia';
-import {Button} from './button.tsx'
+import {Button} from './ui/button.tsx'
 import React, { useState } from 'react';
 import { fetchAPI } from '../../util/fetch.ts';
 

@@ -1,6 +1,7 @@
 // src/components/Button.tsx
 import React, { useRef, useEffect, useState } from 'react';
 import { Loader } from './loader';
+import Spinner from './spinner';
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -19,11 +20,6 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'submit',
   disabled = false,
 }) => {
-  // Define dimensions based on size
-  const buttonHeight = size === 'small' ? '40px' : '50px';
-  const loaderSize = size === 'small' ? 18 : 21; // Adjust loader size as needed
-  const loaderMargin = 8; // Space between loader and text
-
   const textRef = useRef<HTMLDivElement>(null);
   const [textWidth, setTextWidth] = useState(0);
 
@@ -38,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
     <button
     className={`bg-slate-900 text-white rounded-full px-5 py-2 text-lg md:text-xl font-medium w-full ${
       size === 'small' ? 'max-w-[250px]' : 'max-w-[500px]'
-    } flex gap-3 justify-center items-center cursor-pointer hover:bg-slate-800 min-w-[175px]`}
+    } flex gap-3 justify-center items-center cursor-pointer hover:bg-slate-700 min-w-[175px] text-center`}
       disabled={loading || disabled}
       onClick={onClick}
       type={type}
@@ -50,7 +46,7 @@ export const Button: React.FC<ButtonProps> = ({
           marginLeft: textWidth+24+20
         }}
       >
-        {loading && <Loader variant="small" size={loaderSize} aria-label="Loading" colorMode='light'/>}
+        { loading && <Spinner size={20} colorMode='light'/>}
       </div>
       <div
         ref={textRef}

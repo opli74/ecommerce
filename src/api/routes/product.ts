@@ -159,7 +159,7 @@ const app = new Elysia()
     body: t.Object({
         title: t.String( ),
         description: t.String( ),
-        price: t.String( ),
+        price: t.String(),
         discount: t.String( ),
         stock: t.String( ),
         categoryId: t.String( )

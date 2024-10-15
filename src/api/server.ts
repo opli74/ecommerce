@@ -27,46 +27,46 @@ const app = new Elysia()
   })
 )
 
-.use( 
-  cookie( ) 
-)
+  .use( 
+    cookie( ) 
+  )
 
-.onError( ({  
-  code, 
-  error, 
-  set
-} ) => 
-{
-  console.error( error );
-  let _error = error.toString().replace( "Error: ", "");
-
-  let status = 500;
-  let message = "Unexpcted error";
-
-  switch (code) 
+  .onError( ({  
+    code, 
+    error, 
+    set
+  } ) => 
   {
-      case 'NOT_FOUND':
-      {
-          message = "Not found";
-          status = 404;
-          break;
-      }
-      case 'INTERNAL_SERVER_ERROR':
-      {
-          message = "Internal server error";
-          status = 500;
-          break;
-      }
-  }
+    console.error( error );
+    let _error = error.toString().replace( "Error: ", "" );
 
-  set.status = status;
-  return response( 
-      false,
-      message, 
-      null,
-      _error
-  );
-})
+    let status = 500;
+    let message = "Unexpcted error";
+
+    switch (code) 
+    {
+        case 'NOT_FOUND':
+        {
+            message = "Not found";
+            status = 404;
+            break;
+        }
+        case 'INTERNAL_SERVER_ERROR':
+        {
+            message = "Internal server error";
+            status = 500;
+            break;
+        }
+    }
+
+    set.status = status;
+    return response( 
+        false,
+        message, 
+        null,
+        _error
+    );
+  })
   ///////////////////////
   //      USER API     //
   ///////////////////////
@@ -76,7 +76,7 @@ const app = new Elysia()
   ///////////////////////
   .use( product )
 
-app.listen( Number(Bun.env.ELYSIA_PROT), (
+app.listen( Number(Bun.env.ELYSIA_PORT) || 5521, (
 
 ) => 
 {

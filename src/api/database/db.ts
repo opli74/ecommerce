@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { config } from 'dotenv';
-import type { FieldPacket, RowDataPacket } from 'mysql2/promise';
+import type { FieldPacket, RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 
 config();
 
@@ -15,7 +15,7 @@ export const init = async () =>
             user: Bun.env.DB_USER,
             password: Bun.env.DB_PASSWORD,
             database: Bun.env.DB_NAME,
-            port: Number(Bun.env.DB_PORT) || 3300,  // Default MariaDB port
+            port: Number(Bun.env.DB_PORT) || 3306,  // Default MariaDB port
             waitForConnections: true,
             connectionLimit: 10,  // Max number of connections in the pool
             queueLimit: 0         // No limit on queued requests
@@ -59,6 +59,4 @@ export const execute = async <T> (
         throw new Error('Failed to execute MySQL query');
     }
 }
-
-
   

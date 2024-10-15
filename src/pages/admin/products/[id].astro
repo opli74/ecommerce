@@ -1,18 +1,15 @@
 ---
-  import Layout from "../../../layout/layout.astro";
-  import Adminheader from '../../../layout/admin.astro';
-  import ProductEdit from '../../../components/react/productedit';
+import AdminLayout from '../../../layout/admin.astro';
+import ProductEdit from '../../../components/react/productedit';
 
-  const { id } = Astro.params;  // Get the product ID from the URL
-  let uid = id;
-
+const { id } = Astro.params;  // Get the product ID from the URL
+let uid = id;
 ---
 
-  <Layout title="Astro | Account" empty={true} /> 
-          <Adminheader>
-              <div class="w-full main">
-                  Edit product!!
-                  <ProductEdit id={uid}  client:load/>
-              </div>
-          </Adminheader>
-  </Layout>
+<AdminLayout>
+  <div class="w-full main">
+      Edit product!!
+      <ProductEdit id={uid}  client:load/>
+  </div>
+</AdminLayout>
+

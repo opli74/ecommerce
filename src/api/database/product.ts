@@ -79,7 +79,7 @@ export const getProductByCategoryId = async(
     id: number
 ) => 
 {
-    const rows = await SQL.execute< PRODUCT_DB> (`
+    const rows = await SQL.execute< PRODUCT_DB[] > (`
         SELECT p.id, p.categoryId, p.title, p.description, p.stock, p.price, p.createdAt, p.updatedAt AS categoryName 
         FROM products p 
         JOIN categories c ON p.categoryId=c.id 
@@ -93,7 +93,7 @@ export const getProductByCategoryTitle = async(
     title: string
 ) => 
 {
-    const rows = await SQL.execute<PRODUCT_DB>(`
+    const rows = await SQL.execute< PRODUCT_DB[] >(`
         SELECT p.id, p.categoryId, p.title, p.description, p.stock, p.price, p.createdAt, p.updatedAt AS categoryName 
         FROM products p 
         JOIN categories c ON p.categoryId=c.id 
@@ -108,33 +108,15 @@ export const deleteProductByIds = async(
 ) =>
 {
     const [result] = await SQL.execute< ResultSetHeader[] >( 'DELETE FROM products WHERE id IN (?)', [id] );
+
     return result.affectedRows > 0;
 }
 
 export const updateProduct = async(
-    PRODUCT: PRODUCT
+    product: PRODUCT
 ) =>
 {
-    const [result] = await SQL.execute< ResultSetHeader[] >(`
-    UPDATE products 
-    SET 
-      categoryId = ?, 
-      title = ?, 
-      description = ?, 
-      stock = ?, 
-      price = ?, 
-      discount = ?, 
-      updatedAt = NOW() 
-    WHERE id = ?`,
-    [
-        PRODUCT.categoryId,
-        PRODUCT.title,
-        PRODUCT.description,
-        PRODUCT.stock,
-        PRODUCT.price,
-        PRODUCT.discount,
-        PRODUCT.id
-    ]);
+    const result = await SQL.execute< ResultSetHeader >( 'UPDATE products SET categoryId=?, title=?, description=?, stock=?, price=?, discount=?, updatedAt=NOW() WHERE id=?',  [ product.categoryId, product.title, product.description, product.stock, product.price, product.discount, product.id ] );
     return result.affectedRows > 0;
 }
 

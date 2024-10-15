@@ -1,21 +1,21 @@
 ---
 import { Logoutform } from '../../components/react/logoutform';
-import Adminheader from '../../layout/admin.astro';
-import { type ApiResponse, fetchAPI } from "../../util/fetch";
-import { type USER  } from "../../util/types";
+import AdminLayout from '../../layout/admin.astro';
 
-const response = await fetchAPI( 
-            "/user/isloggedin", 
-            "GET"
-          );
-const result = (await response.json()) as ApiResponse< USER >;
+import { isLoggedIn } from '../../util/auth';
 
-console.log( result );
+const { success, data } = await isLoggedIn( Astro.request );
+const user = data;
 
+if( !success || !user )
+    return Astro.redirect( "/login" );
+
+if( !user?.isAdmin )
+    return Astro.redirect( "/account")
 ---
 
-<Adminheader>
+<AdminLayout>
     <div class="w-full main">
         <Logoutform client:load/>
     </div>
-</Adminheader>
+</AdminLayout>

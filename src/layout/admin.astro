@@ -5,15 +5,6 @@ Astro.response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate
 Astro.response.headers.set('Pragma', 'no-cache');
 Astro.response.headers.set('Expires', '0');
 
-const { success, data } = await isLoggedIn( Astro.request );
-const user = data;
-
-if( !success || !user )
-    return Astro.redirect( "/login" );
-
-if( !user?.isAdmin )
-    return Astro.redirect( "/account")
-
 const currentPath = Astro.url.pathname;
 ---
 

@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { fetchAPI } from '../../util/fetch';
+import type { ApiResponse } from '../../api/util/response';
+import type { PRODUCT } from '../../util/types';
 
 const ProductsList = () => {
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<PRODUCT[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]); // Store selected product IDs
 
   // Fetch the products
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:5521/api/products');
-        const data = await response.json();
-        setProducts(data.data);
-      } catch (error) {
+      try 
+      {
+        const response = await fetchAPI( '/product/getproducts', 'GET' );
+        const data = ( await response.json() ) as ApiResponse< PRODUCT[] >;
+        if( data.data )
+          setProducts(data.data);
+      } 
+      catch (error) 
+      {
         console.error('Error fetching products:', error);
-      } finally {
+      } 
+      finally 
+      {
         setLoading(false);
       }
     };
@@ -24,7 +33,8 @@ const ProductsList = () => {
 
   // Handle deleting a single product
   const deleteProduct = async (id: number) => {
-    try {
+    try 
+    {
       await fetch(`http://localhost:5521/api/products/${id}`, { method: 'DELETE' });
       setProducts(products.filter(product => product.id !== id)); // Remove the deleted product from the state
     } catch (error) {
@@ -34,16 +44,20 @@ const ProductsList = () => {
 
   // Handle selecting a product for bulk deletion
   const handleSelectProduct = (id: number) => {
-    if (selectedProducts.includes(id)) {
+    if (selectedProducts.includes(id)) 
+    {
       setSelectedProducts(selectedProducts.filter(productId => productId !== id));
-    } else {
+    } 
+    else 
+    {
       setSelectedProducts([...selectedProducts, id]);
     }
   };
 
   // Handle bulk deletion
   const deleteSelectedProducts = async () => {
-    try {
+    try 
+    {
       await fetch('http://localhost:5521/api/products/delete-multiple', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,7 +65,9 @@ const ProductsList = () => {
       });
       setProducts(products.filter(product => !selectedProducts.includes(product.id))); // Remove deleted products
       setSelectedProducts([]); // Clear selected products
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       console.error('Error deleting selected products:', error);
     }
   };
@@ -63,12 +79,12 @@ const ProductsList = () => {
         <button
         onClick={deleteSelectedProducts}
         disabled={selectedProducts.length === 0}
-        className={`w-[148px] h-[35px] px-4 py-2 mb-4 rounded-md cursor-not-allowed bg-gray-300 animate-pulse`}
+        className={`w-[168.4px] h-[40px] px-4 py-2 mb-4 rounded-md cursor-not-allowed bg-gray-300 animate-pulse`}
       >
       </button>
       <ul className="space-y-4">
         {Array.from({ length: 10 }).map((_, index) => (
-          <li key={index} className="h-[54px] flex items-center justify-between p-4 border rounded-lg shadow-sm animate-pulse">
+          <li key={index} className="h-[62px] flex items-center justify-between p-4 border rounded-lg shadow-sm animate-pulse">
             <div className="flex items-center space-x-3">
               <div className="w-5 h-5 bg-gray-300 rounded"></div>
               <div className="w-48 h-4 bg-gray-300 rounded"></div>

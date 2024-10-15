@@ -2,7 +2,6 @@
 import Layout from '../../layout/layout.astro';
 import { isLoggedIn } from '../../util/auth';
 import { Logoutform } from '../../components/react/logoutform';
-import AdminDashboard from '../../components/react/admindash';
 import { Loader } from '../../components/react/ui/loader';
 
 //just so you the page doesn't get cached so you can't go back to it without re logging in
@@ -10,12 +9,12 @@ Astro.response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate
 Astro.response.headers.set('Pragma', 'no-cache');
 Astro.response.headers.set('Expires', '0');
     
-// const { success, data, user } = await isLoggedIn(Astro.request);
+const { success, data  } = await isLoggedIn(Astro.request);
 
-// if( !success || !user )
-//     return Astro.redirect( "/login" );
+if( !success || !data )
+    return Astro.redirect( "/login" );
 ---
-<Layout title="Astro | Account" /> 
+<Layout title="Astro | Account"> 
     <div class="flex justify-center items-center w-full flex-col h-[90vh]">
         <p>You are not admin!</p>
         <Logoutform client:load/>

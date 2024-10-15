@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { fetchAPI } from '../../util/fetch';
+import type { ApiResponse } from '../../api/util/response';
+import type { CATEGORY, PRODUCT } from '../../util/types';
 
 interface ProductEditProps {
   id: string | undefined; // Expect the 'id' as a prop
@@ -17,14 +20,15 @@ const ProductEdit: React.FC<ProductEditProps> = ({ id }) => {
       try 
       {
         // Fetch product by ID
-        const productResponse = await fetch(`http://localhost:5521/api/products/${id}`);
-        const productData = await productResponse.json();
+        const productResponse = await fetchAPI( `/product/getproduct/${id}`, 'GET' );
+        const productData = ( await productResponse.json() ) as ApiResponse< PRODUCT >;
         setProduct(productData.data);
 
         // Fetch list of categories
-        const response = await fetch('http://localhost:5521/api/categories');
-        const json = await response.json();
-        setCategories( json.data ); // Assuming categories data is in `data`
+        const response = await fetchAPI( '/product/getcategories', 'GET' );
+        const json = ( await  response.json() ) as ApiResponse< CATEGORY[] >;
+        if( json.data )
+          setCategories( json.data ); // Assuming categories data is in `data`
       } 
       catch ( error: any ) 
       {
@@ -46,23 +50,24 @@ const ProductEdit: React.FC<ProductEditProps> = ({ id }) => {
     setSaving(true); // Start saving state
 
     const formData = new FormData(event.currentTarget);
+
     const updatedProduct = {
       title: formData.get('title'),
       description: formData.get('description'),
-      price: parseFloat(formData.get('price') as string),
-      discount: parseFloat( formData.get('discount') as string),
-      stock: parseInt(formData.get('stock') as string, 10),
+      price: formData.get('price'),
+      discount: formData.get('discount'),
+      stock: formData.get('stock'),
       categoryId: formData.get('categoryId'),
     };
 
-    try {
-      const response = await fetch(`http://localhost:5521/api/products/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedProduct),
-      });
+    try 
+    {
+      const response = await fetchAPI(
+         `/product/updateproduct/${id}`, 
+         'PUT', 
+          {},  
+          updatedProduct
+        )
 
       if (!response.ok) 
         setError('Error updating product');

@@ -210,13 +210,15 @@ const app = new Elysia( )
 
 })
 
-.post( '/user/logout', async ( {
+.put( '/user/logout', async ( {
+    cookie,
     cookie: { accessToken }
 } )
 : Promise< ApiResponse< boolean > > => 
 {
     try 
     {
+        delete cookie.accessToken;
         accessToken.remove();
         return response(
             true,

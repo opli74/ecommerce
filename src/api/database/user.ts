@@ -37,7 +37,7 @@ export const GetUsers = async (
     else
         query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE id=?';
 
-    const rows = await SQL.execute< USER_DB >( query, [id]);
+    const rows = await SQL.execute< USER_DB[] >( query, [id]);
     return rows.length > 0 ? rows[ 0 ] : null;
 }
 
@@ -52,7 +52,7 @@ export const GetUsers = async (
     else
         query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE email=?';
 
-    const rows = await SQL.execute< USER_DB >( query, [email]);
+    const rows = await SQL.execute< USER_DB[] >( query, [email]);
     return rows.length > 0 ? rows[ 0 ] : null;
  }
 
@@ -67,7 +67,7 @@ export const GetUsers = async (
     else
         query = 'SELECT id, name, email, isAdmin, createdAt, updatedAt FROM users WHERE name=?';
 
-    const rows = await SQL.execute< USER_DB >( query, [name]);
+    const rows = await SQL.execute< USER_DB[] >( query, [name]);
     return rows.length > 0 ? rows[ 0 ] : null;
 }
 

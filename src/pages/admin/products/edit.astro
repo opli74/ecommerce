@@ -1,27 +1,11 @@
 ---
-import Layout from '../../../layout/layout.astro';
-import { Logoutform } from '../../../components/react/logoutform';
-import Adminheader from '../../../layout/admin.astro';
+import AdminLayout from '../../../layout/admin.astro';
 import ProductsList from '../../../components/react/productlist';
-import { Loader } from '../../../components/react/ui/loader';
-
-let loading = true;
-const response = await fetch('http://localhost:5521/api/products')
-    .then((res) => res.json())
-    .catch((err) => {
-        console.error('Error fetching products:', err);
-        return [];
-    });
-
-loading = false;
-const products = response.data;
 ---
 
-<Layout title="Astro | Account" empty={true} /> 
-    <Adminheader>
-        <div class="w-full main">
-            Edit products
-        </div>
-        <ProductsList client:load/>
-    </Adminheader>
-</Layout>
+<AdminLayout>
+    <div class="w-full main">
+        Edit products
+    </div>
+    <ProductsList client:load/>
+</AdminLayout>

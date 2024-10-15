@@ -1,13 +1,20 @@
 ---
 import Layout from '../layout/layout.astro';
 import Spinner from '../components/react/ui/spinner';
+import { fetchAPI } from '../util/fetch';
+import { type ApiResponse } from '../api/util/response';
+import type { USER } from '../util/types';
+import { isLoggedIn } from '../util/auth';
+
+// const apiResponse = await fetchAPI( "/user/getall", "GET", { Cookie: Astro.request?.headers.get( 'cookie' ) || '' } );
+// const result = ( await apiResponse.json() ) as ApiResponse< USER >;
+
+
+
+// console.log( result );
 ---
 
 <Layout title="Astro">
 	<h1 class="text-xl">Astro hi</h1>
-	<a href="/api/logout">logout!</a>
-	<div class="bg-black">
-		<Spinner size={250} colorMode='light' client:load/>
-	</div>
-	<Spinner size={250} colorMode='dark' client:load/>
+	<a href="/logout">logout!</a>
 </Layout>

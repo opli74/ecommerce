@@ -77,7 +77,7 @@ export const AddUser = async (
     password:string 
 ) => 
 {
-    const [result] = await SQL.execute< ResultSetHeader[] >( 
+    const result = await SQL.execute< ResultSetHeader >( 
         'INSERT INTO users (name, email, password, isAdmin) VALUES (?, ?, ?, false)', 
         [name, email, password] 
     );

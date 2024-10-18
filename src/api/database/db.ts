@@ -16,9 +16,6 @@ export const init = async () =>
             password: Bun.env.DB_PASSWORD,
             database: Bun.env.DB_NAME,
             port: Number(Bun.env.DB_PORT) || 3306,  // Default MariaDB port
-            waitForConnections: true,
-            connectionLimit: 10,  // Max number of connections in the pool
-            queueLimit: 0         // No limit on queued requests
           });
       
         console.log(`mariaDB connected successfully`);

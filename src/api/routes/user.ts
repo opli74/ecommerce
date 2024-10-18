@@ -23,7 +23,6 @@ const app = new Elysia( )
         exposeHeaders: true
     })
 )
-
 .use( 
     jwt( { 
         name: 'jwt',
@@ -31,11 +30,9 @@ const app = new Elysia( )
         expiresIn: '7d',
     })
 )
-
 .use( 
     cookie( ) 
 )
-
 .onError( ({  
     code, 
     error, 
@@ -72,7 +69,6 @@ const app = new Elysia( )
         _error
     );
 })
-
 .get( '/user/getall', async ( 
     context
 )
@@ -94,7 +90,6 @@ const app = new Elysia( )
         throw Error;
     }
 })
-
 .post( '/user/login', async ( {
     jwt,
     body,
@@ -135,7 +130,6 @@ const app = new Elysia( )
         password: t.String( )
     })
 })
-
 .post( '/user/register', async ( {
     body 
 } )
@@ -162,7 +156,6 @@ const app = new Elysia( )
         password: t.String( )
     })
 })
-
 .get('/user/isloggedin', async ( {
     jwt, 
     cookie: { accessToken } 
@@ -207,10 +200,8 @@ const app = new Elysia( )
         console.error( `[Query Failed] -> ${error}` );
         throw Error;
     }
-
 })
-
-.put( '/user/logout', async ( {
+.post( '/user/logout', async ( {
     cookie,
     cookie: { accessToken }
 } )

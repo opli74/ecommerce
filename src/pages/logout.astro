@@ -1,21 +1,21 @@
 ---
 import { fetchAPI } from "../util/fetch";
 
-
 const response = await fetchAPI( 
     '/user/logout', 
-    'PUT',
+    'POST',
     {
-        'cookie': Astro.request?.headers.get( 'cookie' ) || ''
+        Cookie: Astro.request?.headers.get( 'cookie' ) || ''
     }
 );
 
-console.log( response );
-
-const result = await response.json();
-
-
-// if (result.success) 
-//     return Astro.redirect('/');
+return new Response(null, {
+  status: 302,
+  headers: {
+    'Location': '/',
+    'Set-Cookie': response.headers.get('Set-Cookie') || '', 
+    'Content-Type': 'application/json',
+  },
+});
 
 ---
